@@ -6,7 +6,7 @@
  * Config.php
  * --------------------------------------
  */
-define('BASE_URL','http://'.$_SERVER['HTTP_HOST'].'/PANEL/');#accede a las vistas delusuario
+define('BASE_URL','http://'.$_SERVER['HTTP_HOST'].'/PANEL_BH/');#accede a las vistas delusuario
 define('DEFAULT_CONTROLLER','index');
 define('DEFAULT_LAYOUT','stardadmin');
 
