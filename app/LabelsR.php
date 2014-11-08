@@ -6,7 +6,7 @@
  * Descripcion : todas las etiquetas del sistema
  */
 
-define('LB_EMPRESA','MI EMPRESA:');
+define('LB_EMPRESA','MI EMPRESA');
 
 /*ETIQUETAS GENERALES*/
 define('H_PANEL','Panel:');
