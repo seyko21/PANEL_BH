@@ -186,7 +186,7 @@ var simpleScript_ = function(){
         
         confirm: function(obj){
             $.SmartMessageBox({
-                title : "SEVEND - Confirmar:",
+                title : "Confirmar:",
                 content : (obj.content !== undefined)?obj.content : "No content",
                 buttons : '[No][Si]'
             }, function(ButtonPressed) {
