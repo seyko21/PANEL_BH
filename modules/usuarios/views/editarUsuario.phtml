@@ -1,0 +1,141 @@
+<?php
+/*
+ * Documento   : nuevoUsuario
+ * Creado      : 28-jul-2014
+ * Autor       : ..... .....
+ * Descripcion : 
+ */
+$editar = Session::getPermiso('CUSED');
+$buscar = Session::getPermiso('CUSBS');
+
+$data = configurarUsuariosController::getUsuario();
+?>
+<form id="<?php echo T4; ?>formUsuario" name="<?php echo T4; ?>formUsuario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php  echo LABEL_USU1; ?></h4>
+            </div>
+            <div class="modal-body smart-form">
+
+
+                <ul class="nav nav-tabs bordered">
+
+
+                    <li class="active">
+                        <a href="#s1" data-toggle="tab"><?php echo M_FG_USU_T_DP; ?></a>
+                    </li>
+                    <li>
+                        <a href="#s2" data-toggle="tab"><?php echo M_FG_USU_T_RO; ?></a>
+                    </li>
+                </ul>
+
+                <div class="tab-content padding-10">
+                    <div class="tab-pane fade in active" id="s1">
+                        <section>
+                            <div class="row">
+                                <label class="label col col-2"><?php echo M_FG_USU_L_EMP; ?></label>
+                                <div class="col col-8">
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-user"></i>
+                                        <input type="text" id="<?php echo T4; ?>txt_empleadodesc" name="<?php echo T4; ?>txt_empleadodesc" readonly value="<?php echo $data['nombrecompleto']; ?>"></input>
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> <?php echo LABEL_5; ?></b>
+                                        <input type="hidden" id="<?php echo T4; ?>txt_empleado" name="<?php echo T4; ?>txt_empleado" value="7777777"></input>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="row">
+                                <label class="label col col-2"><?php echo LABEL_3; ?></label>
+                                <div class="col col-8">
+                                    <label class="input"> 
+                                        <i class="icon-append fa fa-envelope-o"></i>
+                                        <input type="text" id="<?php echo T4; ?>txt_email" name="<?php echo T4; ?>txt_email" value="<?php echo $data['usuario']; ?>">
+                                        <b class="tooltip tooltip-top-right"><i class="fa fa-envelope-o txt-color-teal"></i> <?php echo L_L_EMAIL; ?></b>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="row">
+                                <label class="label col col-2"></label>
+                                <div class="col col-3">
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="<?php echo T4; ?>chk_activo" id="<?php echo T4; ?>chk_activo" value="A" <?php echo ($data['estado'] == 'A')?'checked':'';?> ></input>
+                                        <i></i>
+                                        <?php echo CK_ACTIVO; ?>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="tab-pane fade" id="s2">
+                        <?php $roles = configurarUsuariosController::getRolesUser(); ?>
+                        <ul style="list-style: none">
+                            <?php foreach ($roles as $r): ?>
+                                <li class="move-cursor">
+                                    <label class="checkbox">
+                                        <input type="checkbox" value="<?php echo AesCtr::en($r['id_rol']); ?>" name="<?php echo T4; ?>chk_roles[]" <?php echo ($r['chk'] == 1)?'checked':'';?>><i></i>
+                                        <?php echo $r['rol']; ?>
+                                    </label>
+                                </li> 
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <?php if ($editar['permiso']): ?>
+                <button id="<?php echo T4; ?>btnGrabaAccion" type="submit" class="btn txt-color-white bg-color-blueDark">
+                        <i class="fa fa-save"></i> <?php echo $editar['accion']; ?>
+                    </button>
+                <?php endif; ?>
+                <button type="button" class="btn btn-default xClose">
+                    <i class="fa fa-ban"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no riene permiso se anula submit desde cualquier input -->
+<?php if (!$editar['permiso']): ?>
+    <script>
+        simpleScript.noSubmit('#<?php echo T4; ?>formUsuario');
+    </script>
+<?php endif; ?>
+<script>
+    $('.xhelp').tooltip({placement: 'right'});
+    $('#<?php echo T4; ?>formUsuario').validate({
+        // Rules for form validation
+        rules: {
+            <?php echo T4; ?>txt_empleado: {
+                required: true
+            },
+            <?php echo T4; ?>txt_email: {
+                required: true,
+                email: true
+            },        
+            <?php echo T4; ?>txt_empleadodesc: {
+                required: true,
+                regular: true,
+                minlength: 2
+            }      
+        },
+        // Do not change code below
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent());
+        },
+        submitHandler: function() {
+            configurarUsuariosScript.validaFormUser(2);
+        }
+    });
+    /*para hacer evento invisible*/
+simpleScript.removeAttr.click({
+    container: '#<?php echo T4; ?>formUsuario',
+    typeElement: 'button'
+});
+</script>

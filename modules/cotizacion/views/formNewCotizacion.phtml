@@ -1,0 +1,327 @@
+<?php
+echo Functions::widgetOpen(array(
+    'id' => T8,
+    'title' => LABEL_GNC2,
+    'padding' => true,
+    'wizard' => true
+));
+$nuevo = Session::getPermiso('GNCOTNEW');
+$grabar = Session::getPermiso('GNCOTGR');
+$agregar = Session::getPermiso('GNCOTAG');
+$buscar = Session::getPermiso('GNCOTBS');
+?>
+<div class="row">
+    <form id="<?php echo T8; ?>formGenerarCotizacion" name="<?php echo T8; ?>formGenerarCotizacion" novalidate="novalidate">
+        <div id="bootstrap-wizard-1" class="col-sm-12">
+            <div class="form-bootstrapWizard">
+                <ul class="bootstrapWizard form-wizard">
+                    <li class="active" data-target="#step1">
+                        <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Información general</span> </a>
+                    </li>
+                    <li data-target="#step2">
+                        <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Productos</span> </a>
+                    </li>
+                    <li data-target="#step3">
+                        <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Finalizar</span> </a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active form-horizontal" id="tab1">
+                    <br><br>
+                    <h3><strong><?php echo LABEL_GNC19; ?></strong><?php echo LABEL_GNC20; ?></h3>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="prepend"><?php echo LABEL_GNC3; ?></label>
+                        <div class="col-md-8">
+                            <div class="input-group input-group-sm">
+                                <input type="hidden" id="<?php echo T8; ?>txt_idpersona" name="<?php echo T8; ?>txt_idpersona">
+                                <input class="form-control" type="text" id="<?php echo T8; ?>txt_cliente" name="<?php echo T8; ?>txt_cliente" readonly>
+                                <span class="input-group-btn">
+                                    <?php if ($buscar['permiso']): ?>
+                                        <button class="<?php echo $buscar['theme'];?>" type="button" onclick="generarCotizacion.getFormBuscarCliente(this, '<?php echo T8; ?>');"><i class="<?php echo $buscar['icono'];?>"></i> <?php echo $buscar['accion'];?></button>
+                                    <?php endif; ?>
+                                     <?php if($nuevo['permiso']): ?>
+                                        <button id="<?php echo T8; ?>newCliente" type="button" onclick="generarCotizacion.getNuevoCliente(this);" class="<?php echo $nuevo['theme'];?>" title="Nuevo Cliente">
+                                             <i class="<?php echo $nuevo['icono'];?>"></i> <?php echo $nuevo['accion'];?>
+                                        </button>
+                                        <?php endif; ?>    
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="prepend"><?php echo LABEL_GNC4; ?></label>
+                        <div class="col-md-2">
+                            <div class="input">
+                                <input class="form-control" type="text" id="<?php echo T8; ?>txt_meses" name="<?php echo T8; ?>txt_meses" onkeyup="generarCotizacionScript.reCalcular(1);">
+                            </div>
+                        </div>
+                        <label class="control-label col-md-3" for="prepend"><?php echo LABEL_GNC5; ?></label>
+                        <div class="col-md-2">
+                            <div class="input">
+                                <input class="form-control" type="text" id="<?php echo T8; ?>txt_oferta" name="<?php echo T8; ?>txt_oferta" value="0">
+                            </div>
+                        </div>                        
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="prepend"><?php echo LABEL_GNC13; ?></label>
+                        <div class="col-md-2">
+                            <div class="input">
+                                <input class="form-control" type="text" id="<?php echo T8; ?>txt_diasvalidez" name="<?php echo T8; ?>txt_diasvalidez" value="1" >
+                            </div>
+                        </div>
+                        <?php $data = generarCotizacionController::getProduccion(); ?>
+                        <label class="control-label col-md-3" for="prepend"><?php echo LABEL_GNC14; ?></label>
+                        <div class="col-md-2">
+                            <div class="input">
+                                <input class="form-control" type="text" id="<?php echo T8; ?>txt_produccion" name="<?php echo T8; ?>txt_produccion" value="<?php echo $data['valor']; ?>" onkeyup="generarCotizacionScript.changeProduccion(this);">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="prepend"><?php echo LABEL_GNC16; ?></label>
+                        <div class="col-md-2">
+                            <div class="select">
+                                <select id="<?php echo T8; ?>lst_igv" name="<?php echo T8; ?>lst_igv" class="form-control">
+                                    <option value="1"><?php echo LABEL_GNC17; ?></option>
+                                    <option value="0" selected="selected"><?php echo LABEL_GNC18; ?></option>
+                                </select><i></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+
+
+
+
+
+
+                <div class="tab-pane" id="tab2">
+                    <br>
+                    <h3><strong><?php echo LABEL_GNC21; ?></strong><?php echo LABEL_GNC22; ?></h3>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="prepend">
+                            <?php if($agregar['permiso']):?>
+                            <button id="<?php echo T8; ?>btnGadd" type="button" class="btn txt-color-white bg-color-blueDark" onclick="generarCotizacion.getFormBuscarMisProductos(this,'<?php echo T8; ?>');"
+                                    rel="popover-hover" data-placement="top" data-original-title="<?php echo LABEL_GNC10; ?>" data-content="<?php echo LABEL_GNC11; ?>">
+                                <i class="fa fa-plus-circle"></i> <?php echo BTN_ADD; ?>
+                            </button>
+                            <?php endif; ?>
+                        </label>
+                    </div>
+                    <br><br>
+                    <div style="padding: 10px">
+                        <div class="si-access" style="min-height: 200px; max-height: auto;">
+                            <table id="<?php echo T8; ?>gridProductos" class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
+                                <thead>
+                                    <th style="width:59%"><?php echo LABEL_GNCOT_1; ?></th>
+                                    <th style="width:8%"><?php echo LABEL_GNCOT_2; ?></th>
+                                    <th style="width:10%"><?php echo LABEL_GNCOT_3; ?></th>
+                                    <th style="width:10%"><?php echo LABEL_GNCOT_4; ?></th>
+                                    <th style="width:7%"><?php echo LABEL_GNCOT_5; ?></th>
+                                    <th style="width:10%"><?php echo LABEL_GNCOT_6; ?></th>
+                                    <th style="width:10%"><?php echo LABEL_GNCOT_7; ?></th>
+                                    <th style="width:1%">...</th>
+                                </thead>
+                                <tbody>
+                                    <?php echo Functions::createCell(array('row'=>5,'cols'=>8)); ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group" style="margin-top:5px">
+                            <div class="col-md-2 pull-right">
+                                <div class="input">
+                                    <input class="form-control right" type="text" id="<?php echo T8; ?>txt_total" name="<?php echo T8; ?>txt_total" readonly>
+                                </div>
+                            </div>
+                            <label class="control-label col-md-2 pull-right" for="prepend"><?php echo LABEL_T; ?></label>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+
+
+               
+                <div class="tab-pane form-horizontal" id="tab3">
+                    <br>
+                    <h3><strong><?php echo LABEL_GNC23; ?></strong><?php echo LABEL_GNC24; ?></h3>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="prepend"><?php echo LABEL_GNC26; ?></label>
+                        <div class="col-md-9">
+                            <div class="textarea">
+                                <input class="form-control" type="text" id="<?php echo T8; ?>txt_campania" name="<?php echo T8; ?>txt_campania">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="prepend"><?php echo LABEL_GNC25; ?></label>
+                        <div class="col-md-9">
+                            <div class="textarea">
+                                <textarea class="form-control" id="<?php echo T8; ?>txt_obs" name="<?php echo T8; ?>txt_obs"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-center">
+                        <button id="<?php echo T8; ?>btnGcoti" type="button" class="btn btn-success btn-large" title="<?php echo LABEL_GNC15; ?>" onclick="generarCotizacion.postGenerarCotizacion();">    
+                            <i class="fa fa-plus-circle fa-lg"></i>
+                            <?php echo LABEL_GNC27; ?>
+                        </button>
+                    </h4>
+                    <br>
+                    <br>
+                </div>
+
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="pager wizard no-margin no-border">
+                                <!--<li class="previous first disabled">
+                                <a href="javascript:void(0);" class="btn btn-lg btn-default"> First </a>
+                                </li>-->
+                                <li class="previous disabled">
+                                    <a href="javascript:void(0);" class="btn btn-lg btn-default"> <?php echo LABEL_ANT?> </a>
+                                </li>
+                                <!--<li class="next last">
+                                <a href="javascript:void(0);" class="btn btn-lg btn-primary"> Last </a>
+                                </li>-->
+                                <li class="next">
+                                    <a href="javascript:void(0);" class="btn btn-lg txt-color-darken"> <?php echo LABEL_SIG?> </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        
+        <script>
+            var $validator = $("#<?php echo T8; ?>formGenerarCotizacion").validate({
+                rules: {
+                    <?php echo T8; ?>txt_idpersona: {
+                        required: true
+                    },
+                    <?php echo T8; ?>txt_cliente: {
+                        required: true
+                    },        
+                    <?php echo T8; ?>txt_meses: {
+                        required: true,
+                        maxlength: 4
+                    },   
+                    <?php echo T8; ?>txt_oferta: {
+                        number: true,
+                        integer: true
+                    },
+                    <?php echo T8; ?>txt_diasvalidez: {
+                        required: true,
+                        number: true,
+                        integer: true,
+                        maxlength: 3,
+                        max: 3
+                    },
+                    <?php echo T8; ?>txt_produccion: {
+                        required: true,
+                        number: true
+                    }      
+                },
+                highlight: function(element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                unhighlight: function(element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorElement: 'span',
+                errorClass: 'help-block',
+                errorPlacement: function(error, element) {
+                    if (element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+
+            var baseItemSelector = 'li:has([data-toggle="tab"])';
+            $('#bootstrap-wizard-1').bootstrapWizard({
+                tabClass: 'form-wizard',
+                onTabClick: function(tab, navigation, index) {
+                    //desactivar tabs
+                    return false;
+                },
+                onTabChange: function(tab, navigation, index) {
+                    
+                },
+                onNext: function(tab, navigation, index) {
+                    var $valid = $("#<?php echo T8; ?>formGenerarCotizacion").valid();
+                    if(index === 1){
+                        if (!$valid) {
+                            $validator.focusInvalid();
+                            return false;
+                        }
+                        /*marca el paso como completado*/
+                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
+                                'complete');
+                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
+                                .html('<i class="fa fa-check"></i>');
+                    }
+                    if(index === 2){
+                        var r = simpleScript.validaTable({
+                            id: '#'+diccionario.tabs.T8+'gridProductos',
+                            msn: mensajes.MSG_10
+                        });
+                        if(r === false){
+                            return false;
+                        }else{
+                            /*marca el paso como completado*/
+                            $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
+                                    'complete');
+                            $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
+                                    .html('<i class="fa fa-check"></i>');
+                        }
+                    }
+                    
+                }
+            });
+
+            var wizard = $('.wizard').wizard();
+
+            wizard.on('finished', function(e, data) {
+                //$("#fuelux-wizard").submit();
+                //console.log("submitted!");
+                $.smallBox({
+                    title: "Congratulations! Your form was submitted",
+                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+                    color: "#5F895F",
+                    iconSmall: "fa fa-check bounce animated",
+                    timeout: 4000
+                });
+            });
+            /*para hacer evento invisible*/
+            simpleScript.removeAttr.click({
+                container: '#<?php echo T8; ?>formGenerarCotizacion',
+                typeElement: 'button'
+            });
+            simpleScript.removeAttr.keyup({
+                container: '#<?php echo T8; ?>formGenerarCotizacion',
+                typeElement: 'input'
+            });
+        </script>
+    </form>
+</div>
+
+<?php echo Functions::widgetClose(); ?>

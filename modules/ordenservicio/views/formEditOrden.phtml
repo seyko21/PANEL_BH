@@ -1,0 +1,138 @@
+<?php
+/*
+ * Documento   : nuevaAccion
+ * Creado      : 07-jul-2014
+ * Autor       : ..... .....
+ * Descripcion : 
+ */
+$editar = Session::getPermiso('ORSERACT');
+$data = Obj::run()->generarOrdenController->findOrden();
+
+$estado = Formulario::getParam('_estado');
+
+?>
+<form id="<?php echo GNOSE; ?>formEditOrden" name="<?php echo GNOSE; ?>formEditOrden" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo GNOSE_12; ?></h4>
+            </div>
+            <div class="modal-body smart-form">
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo GNOSE_8; ?></label>
+                        <div class="col col-3">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-calendar-o "></i>
+                                <input type="text" id="<?php echo GNOSE; ?>txt_fechapago" name="<?php echo GNOSE; ?>txt_fechapago" value="<?php echo Functions::cambiaf_a_normal($data['fecha_orden'])?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo GNOSE_9; ?></b>
+                            </label>
+                        </div>
+                        
+                        <label class="label col col-3"><?php echo GNOSE_13; ?></label>
+                        <div class="col col-3">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-calendar-o "></i>
+                                <input type="text" id="<?php echo GNOSE; ?>txt_fechacontrato" name="<?php echo GNOSE; ?>txt_fechacontrato" value="<?php echo Functions::cambiaf_a_normal($data['fecha_contrato'])?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-question-circle txt-color-teal"></i> <?php echo GNOSE_14; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>              
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo GNOSE_15; ?></label>
+                        <div class="col col-9">
+                            <label class="select"> 
+                                <?php
+                                    $datac = Obj::run()->generarOrdenController->getContratos();
+                                    
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$datac,
+                                        'atributes'=>array(
+                                            'id'=>GNOSE.'lst_contrato',
+                                            'name'=>GNOSE.'lst_contrato'
+                                        ),
+                                        'etiqueta'=>'nombre',
+                                        'value'=>'id_contrato',
+                                        'defaultEtiqueta'=>$data['id_contrato'],
+                                        'txtSelect'=>true
+                                    ));
+                                ?><i></i>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo GNOSE_21; ?></label>
+                        <div class="col col-3">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-clock-o"></i>
+                                <input class="right" type="text" id="<?php echo GNOSE; ?>txt_oferta" name="<?php echo GNOSE; ?>txt_oferta" value="<?php echo number_format($data['dias_oferta'])?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo GNOSE_22; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>   
+                
+                
+                
+            </div>
+            <div class="modal-footer">    
+                <!--solo se edita si el estado es EMITIDO-->
+                <?php if($editar['permiso'] && $estado == 'E'):?>
+                <button id="<?php echo GNOSE; ?>btnEdOrd" type="submit" class="<?php echo $editar['theme']; ?>" style="padding: 5px">
+                    <i class="<?php echo $editar['icono']; ?>"></i> <?php echo $editar['accion']; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no riene permiso se anula submit desde cualquier input -->
+<?php if(!$editar['permiso']): ?>
+<script>
+    simpleScript.noSubmit('#<?php echo GNOSE; ?>formEditOrden');
+</script>
+<?php endif; ?>
+<script>
+    simpleScript.setEvent.date({
+      element: '#<?php echo GNOSE; ?>txt_fechapago, #<?php echo GNOSE; ?>txt_fechacontrato' 
+    });
+$("#<?php echo GNOSE; ?>formEditOrden").validate({
+    // Rules for form validation
+    rules : {
+        <?php echo GNOSE; ?>txt_fechapago : {
+            required : true,
+            date: true     
+        },
+        <?php echo GNOSE; ?>txt_fechacontrato : {
+            date: true     
+        },
+        <?php echo GNOSE; ?>txt_descuento : {
+            number: true     
+        },
+        <?php echo GNOSE; ?>lst_contrato : {
+            required : true
+        },<?php echo GNOSE; ?>txt_oferta: {
+            number: true,
+            integer: true
+        },
+    },
+    // No cambie el código de abajo
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parent());
+    },
+
+    submitHandler: function(){
+        generarOrden.postEditOrden();
+    }   
+});
+</script>

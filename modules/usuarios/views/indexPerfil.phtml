@@ -1,0 +1,142 @@
+<?php
+$editar = Session::getPermiso('PERFACT');
+
+$data = Obj::run()->perfilController->findMiPerfil();
+?>
+<form id="<?php echo PERF; ?>indexPerfil" name="<?php echo PERF; ?>indexPerfil" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php  echo PERF_1; ?></h4>
+            </div>
+            <div class="modal-body smart-form">
+                <section>
+                    <div class="row">
+                        <label class="label col col-3"><?php echo LABEL_RV3; ?></label>
+                        <div class="col col-8">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo PERF; ?>txt_nombres" name="<?php echo PERF; ?>txt_nombres" value="<?php echo $data['nombres']?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo LABEL_RV6; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-3"><?php echo LABEL_RV4; ?></label>
+                        <div class="col col-8">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo PERF; ?>txt_apepaterno" name="<?php echo PERF; ?>txt_apepaterno" value="<?php echo $data['apellidopaterno']?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo LABEL_RV7; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-3"><?php echo LABEL_RV5; ?></label>
+                        <div class="col col-8">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo PERF; ?>txt_materno" name="<?php echo PERF; ?>txt_materno" value="<?php echo $data['apellidomaterno']?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo LABEL_RV8; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-3"><?php echo LABEL_RV9; ?></label>
+                        <div class="col col-8">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo PERF; ?>txt_direccion" name="<?php echo PERF; ?>txt_direccion" value="<?php echo $data['direccion']?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo LABEL_RV11; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-3"><?php echo LABEL_RV10; ?></label>
+                        <div class="col col-8">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo PERF; ?>txt_email" name="<?php echo PERF; ?>txt_email" value="<?php echo $data['email']?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo LABEL_RV12; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <label class="label col col-3"><?php echo LABEL_RV14; ?></label>
+                        <div class="col col-8">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo PERF; ?>txt_telefonos" name="<?php echo PERF; ?>txt_telefonos" value="<?php echo $data['telefono']?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo LABEL_RV15; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <?php if ($editar['permiso']): ?>
+                <button id="<?php echo PERF; ?>btnEper" type="submit" class="btn txt-color-white bg-color-blueDark">
+                        <i class="fa fa-save"></i> <?php echo $editar['accion']; ?>
+                    </button>
+                <?php endif; ?>
+                <button type="button" class="btn btn-default xClose">
+                    <i class="fa fa-ban"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no riene permiso se anula submit desde cualquier input -->
+<?php if (!$editar['permiso']): ?>
+    <script>
+        simpleScript.noSubmit('#<?php echo PERF; ?>indexPerfil');
+    </script>
+<?php endif; ?>
+<script>
+    $('#<?php echo PERF; ?>indexPerfil').validate({
+        // Rules for form validation
+        rules: {
+            <?php echo PERF; ?>txt_nombres: {
+                required: true
+            },
+            <?php echo PERF; ?>txt_apepaterno: {
+                required: true
+            },
+            <?php echo PERF; ?>txt_materno: {
+                required: true
+            },
+            <?php echo PERF; ?>txt_direccion: {
+                required: true
+            },
+            <?php echo PERF; ?>txt_email: {
+                required: true,
+                email: true
+            }       
+        },
+        // Do not change code below
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent());
+        },
+        submitHandler: function() {
+            perfil.postPerfil();
+        }
+    });
+    /*para hacer evento invisible*/
+simpleScript.removeAttr.click({
+    container: '#<?php echo PERF; ?>indexPerfil',
+    typeElement: 'button'
+});
+</script>

@@ -1,0 +1,56 @@
+<?php 
+$nuevo = Session::getPermiso('FITECNEW');
+$eliminar = Session::getPermiso('FITECDEL');
+        
+echo Functions::widgetOpen(array(
+        'id'=>T102,
+        'title'=>LABEL_A20        
+    )); 
+?>
+<button id="<?php echo T102; ?>btnDowPDF" type="button" class="hide" >Descargar</button>
+<button id="<?php echo T102; ?>btnDowExcel" type="button" class="hide">Descargar</button>
+    <div class="widget-body-toolbar"></div>
+    <div class="dataTables_wrapper form-inline" role="grid">
+        <div class="dt-top-row">                        
+            <div class="DTTT btn-group">                
+                <?php if($nuevo['permiso']): ?>
+                <button id="<?php echo T102; ?>btnNew" type="button" onclick="fichaTecnica.getNuevoFichaTecnica(this);" class="<?php echo $nuevo['theme'];?>">
+                    <i class="<?php echo $nuevo['icono'];?>"></i> <?php echo $nuevo['accion'];?>
+                </button>
+                <?php endif; ?>
+                <?php if($eliminar['permiso']): ?>
+                <button id="<?php echo T102; ?>btnNew" type="button" onclick="fichaTecnica.postDeleteFichaTecnicaAll(this);" class="<?php echo $eliminar['theme'];?>">
+                    <i class="<?php echo $eliminar['permiso'];?>"></i> <?php echo $eliminar['accion'];?>
+                </button>
+                <?php endif; ?>
+            </div>
+        </div>
+
+    </div>
+    <form id="<?php echo T102; ?>fromGridFichaTecnica" name="<?php echo T102; ?>fromGridFichaTecnica" onsubmit="return false;">
+        <table id="<?php echo T102; ?>gridFichaTecnica" class="table table-striped table-hover table-condensed" style="width:100%"></table>
+    </form>           
+<?php echo Functions::widgetClose(); ?>   
+
+<?php 
+    $obj = array(
+        'id'=>T102.'Caratula',
+        'title'=>LABEL_A23       
+    );
+    echo Functions::widgetOpen($obj); 
+?>
+    <form id="<?php echo T102; ?>fromGridCaratula" name="<?php echo T102; ?>fromGridCaratula">
+        <table id="<?php echo T102; ?>gridCaratula" class="table table-striped table-hover table-condensed" style="width:100%;"></table>
+    </form>           
+<?php echo Functions::widgetClose(); ?>               
+
+<script>   
+            
+    /*para hacer evento invisible*/
+    simpleScript.removeAttr.click({
+        container: '#widget_<?php echo T102; ?>, #widget_<?php echo T102; ?>Caratula',
+        typeElement: 'button'
+    });
+       
+
+</script>
