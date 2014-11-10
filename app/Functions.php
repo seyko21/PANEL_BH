@@ -99,11 +99,10 @@ class Functions{
     }
     
     public static function help($c){
-        $html = '<img src="'.BASE_URL.'public/img/h1.png" class="xhelp pointer" title="'.$c.'" onmousemove="$(\'.tooltip\').css({opacity: 1,background: \'transparent\'});$(\'.tooltip-inner\').css({\'margin-left\':\'-3px\'});" style="margin-top:7px;">';
+        $html = '<img src="'.BASE_URL.'public/img/h1.png" class="xhelp pointer" title="'.$c.'" onmousemove="$(\'.tooltip\').css({opacity: 1,background: \'transparent\'});$(\'.tooltip-inner\').css({\'margin-left\':\'-3px\'});" style="margin-top:7px; ">';
         return $html;
     }
-    
-    
+            
     /*
      * echo Functions::selectHtml(array(
                                         'data'=>$data,
