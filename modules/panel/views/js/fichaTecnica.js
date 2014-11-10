@@ -193,11 +193,11 @@ var fichaTecnica_ = function(){
         });        
         
     };
-    this.publico.getEditarFichaTecnica = function(id){
+    this.publico.getEditarFichaTecnica = function(btn,id){
         _private.idProducto = id;
         
         simpleAjax.send({
-            gifProcess: true,
+            element: btn,
             dataType: 'html',
             root: _private.config.modulo + 'getEditarFichaTecnica',
             data: '&_idProducto='+_private.idProducto,
