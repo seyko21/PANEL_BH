@@ -221,11 +221,11 @@ var fichaTecnica_ = function(){
         });        
         
     };    
-     this.publico.getEditarCaratula = function(id, idd){
+     this.publico.getEditarCaratula = function(btn,id, idd){
         _private.idCaratula = id;
         _private.idProducto  = idd;         
         simpleAjax.send({
-            gifProcess: true,
+            element: btn,
             dataType: 'html',
             root: _private.config.modulo + 'getEditarCaratula',
             data: '&_idCaratula='+_private.idCaratula,

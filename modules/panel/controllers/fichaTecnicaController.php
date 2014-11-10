@@ -168,7 +168,7 @@ class fichaTecnicaController extends Controller{
                 
                 //Visualizar Detalle                
                 if($editar['permiso'] == 1){
-                    $sOutput .= '<button type=\"button\" class=\"'.$editar['theme'].'\" title=\"'.$editar['accion'].'\" onclick=\"fichaTecnica.getEditarCaratula(\''.$encryptReg.'\',\''.$idProd.'\')\">';
+                    $sOutput .= '<button type=\"button\" class=\"'.$editar['theme'].'\" title=\"'.$editar['accion'].'\" onclick=\"fichaTecnica.getEditarCaratula(this,\''.$encryptReg.'\',\''.$idProd.'\')\">';
                     $sOutput .= '    <i class=\"'.$editar['icono'].'\"></i>';
                     $sOutput .= '</button>';
                 }      
