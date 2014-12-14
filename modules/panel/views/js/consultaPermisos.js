@@ -59,7 +59,8 @@ var consultaPermisos_ = function(){
                 {sTitle: "Area m2", sWidth: "8%",  sClass: "center"},                                
                 {sTitle: "Acciones", sWidth: "15%", sClass: "center", bSortable: false}
             ],
-            aaSorting: [[3, 'asc']],            
+            aaSorting: [[3, 'asc']],      
+            sScrollY: "350px",
             sAjaxSource: _private.config.modulo+'getGridConsultaPermiso',
             fnDrawCallback: function() {
                 $('#'+diccionario.tabs.TAB_CONPER+'gridConsultaPermisos_filter').find('input').attr('placeholder','Buscar por Ciudad o Ubicación').css('width','350px');
@@ -69,14 +70,20 @@ var consultaPermisos_ = function(){
                     container: '#widget_'+diccionario.tabs.TAB_CONPER, //widget del datagrid
                     typeElement: 'button, #'+diccionario.tabs.TAB_CONPER+'chk_all'
                 });
-            }
+                $('#'+diccionario.tabs.TAB_CONPER+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.TAB_CONPER+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
         setup_widgets_desktop();                
         
     };
 
     this.publico.getGridIndexPermisos = function (){
-         $('#'+diccionario.tabs.PANP+'gridPermisoMunicipal').dataTable({
+       var oTable  =  $('#'+diccionario.tabs.PANP+'gridPermisoMunicipal').dataTable({
             bProcessing: true,
             bServerSide: true,
             bDestroy: true,
@@ -93,7 +100,15 @@ var consultaPermisos_ = function(){
             ],
             aaSorting: [[0, 'asc']],
             sScrollY: "125px",
-            sAjaxSource: _private.config.modulo+'getGridIndexConsultaPermiso'            
+            sAjaxSource: _private.config.modulo+'getGridIndexConsultaPermiso',
+            fnDrawCallback: function() {
+            $('#'+diccionario.tabs.PANP+'gridPermisoMunicipal_refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.PANP+'gridPermisoMunicipal_refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
 
     };          

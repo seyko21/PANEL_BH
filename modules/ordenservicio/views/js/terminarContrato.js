@@ -64,13 +64,20 @@ var terminarContrato_ = function(){
             sScrollY: "300px",
             sAjaxSource: _private.config.modulo+"getGridTerminarContrato",
             fnDrawCallback: function() {
-                $("#"+diccionario.tabs.TERCO+"gridTerminarContrato_filter").find("input").attr("placeholder","Buscar por OS, cotización o representante").css("width","290px");
+                $("#"+diccionario.tabs.TERCO+"gridTerminarContrato_filter").find("input").attr("placeholder","Buscar por OS, cotización o Cliente").css("width","350px");
+                simpleScript.enterSearch("#"+diccionario.tabs.TERCO+'gridTerminarContrato',oTable);
                 /*para hacer evento invisible*/
                 simpleScript.removeAttr.click({
                     container: "#widget_"+diccionario.tabs.TERCO,
                     typeElement: "button"
                 });
-            }
+                $('#'+diccionario.tabs.TERCO+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.TERCO+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
         setup_widgets_desktop();
     };

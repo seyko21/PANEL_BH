@@ -72,12 +72,19 @@ var panelesConfirmado_ = function(){
             },            
             fnDrawCallback: function() {
                 $("#"+diccionario.tabs.PANCO+"gridPanelesConfirmado_filter").find("input").attr("placeholder","Buscar por N° OS o codigo o Vendedor").css("width","350px");
+                simpleScript.enterSearch("#"+diccionario.tabs.PANCO+'gridPanelesConfirmado',oTable);
                 /*para hacer evento invisible*/
                 simpleScript.removeAttr.click({
                     container: "#widget_"+diccionario.tabs.PANCO,
                     typeElement: "button"
                 });
-            }
+                $('#'+diccionario.tabs.PANCO+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.PANCO+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
         setup_widgets_desktop();
     };       

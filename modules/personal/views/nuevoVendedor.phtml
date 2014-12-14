@@ -213,7 +213,6 @@ $grabar = Session::getPermiso('REGVEGR');
 <?php endif; ?>
 <script>
     $('#<?php echo T7; ?>formVendedor').validate({
-        // Rules for form validation
         rules : {
                 <?php echo T7; ?>txt_nombres : {
                         required : true,
@@ -230,13 +229,11 @@ $grabar = Session::getPermiso('REGVEGR');
                         regular: true,
                         minlength: 3
                 },
-                <?php echo T7; ?>txt_nrodocumento:{
-                        required: true,
+                <?php echo T7; ?>txt_nrodocumento:{                        
                         number: true,
                         maxlength: 12
                 },
-                <?php echo T7; ?>txt_dni:{
-                        required: true,
+                <?php echo T7; ?>txt_dni:{                        
                         number: true,
                         maxlength: 8
                 },        
@@ -248,19 +245,13 @@ $grabar = Session::getPermiso('REGVEGR');
                 },
                 <?php echo T7; ?>lst_ubigeo : {
                         required : true
-                },
-                <?php echo T7; ?>txt_direccion : {
-                        required : true,
-                        regular2: true,
-                        minlength: 3
-                },
+                },              
                 <?php echo T7; ?>txt_email : {
                         required : true,
                         email: true
                 }     
         },
 
-        // Do not change code below
         errorPlacement : function(error, element) {
                 error.insertAfter(element.parent());
         },

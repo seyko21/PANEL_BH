@@ -33,7 +33,23 @@
         LISOC: '<?php echo LISOC; ?>',
         PAINV: '<?php echo PAINV; ?>',
         CREIN: '<?php echo CREIN; ?>',
-        GPASO: '<?php echo GPASO; ?>'
+        GPASO: '<?php echo GPASO; ?>',
+        VUNID: '<?php echo VUNID; ?>',
+        VPROD: '<?php echo VPROD; ?>',
+        VGEVE: '<?php echo VGEVE; ?>',
+        VRECL: '<?php echo VRECL; ?>',
+        VSEVE: '<?php echo VSEVE; ?>',
+        VCSCL: '<?php echo VCSCL; ?>',
+        VRPT1: '<?php echo VRPT1; ?>',
+        VRPT2: '<?php echo VRPT2; ?>',
+        VRPT3: '<?php echo VRPT3; ?>',
+        VRPT4: '<?php echo VRPT4; ?>',
+        PANED: '<?php echo PANED; ?>',
+        VRPT5: '<?php echo VRPT5; ?>',
+        VEGRE: '<?php echo VEGRE; ?>',
+        VCOTI: '<?php echo VCOTI; ?>',
+        CAJAA: '<?php echo CAJAA; ?>',
+        CAJAC: '<?php echo CAJAC; ?>'
     }
 };
 </script>

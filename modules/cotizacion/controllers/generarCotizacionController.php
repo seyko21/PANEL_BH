@@ -50,9 +50,17 @@ class generarCotizacionController extends Controller{
                     $estado = '<span class=\"label label-danger\">'.LABEL_AN.'</span>';
                     $chk = '<input id=\"c_'.(++$key).'\" type=\"checkbox\" name=\"'.T8.'chk_delete[]\" disabled  >';
                 }     
-                                                
+                     
+                 if($aRow['incluyeigv'] == 1){
+                    $incl = '<span class=\"label label-success\">'.LABEL_S.'</span>';                    
+                }elseif($aRow['incluyeigv'] == 0){                   
+                    $incl = '<span class=\"label label-info\">'.LABEL_N.'</span>';                    
+                }     
+                
+                $total = 'S/. '.number_format($aRow['total'],2);
+                
                 /*datos de manera manual*/
-                $sOutput .= '["'.$chk.'","'.$aRow['cotizacion_numero'].'","<a href=\"javascript:;\" onclick=\"persona.getDatosPersonales(\''.$idPersona.'\');\">'.$aRow['nombrecompleto'].'</a>","'.$aRow['vendedor'].'","'.$aRow['fechacoti'].'","'.Functions::cambiaf_a_normal($aRow['vencimiento']).'","'.  number_format($aRow['total'],2).'","'.$estado.'", ';
+                $sOutput .= '["'.$chk.'","'.$aRow['cotizacion_numero'].'","<a href=\"javascript:;\" onclick=\"persona.getDatosPersonales(\''.$idPersona.'\');\">'.$aRow['nombrecompleto'].'</a>","'.$aRow['fechacoti'].'","'.Functions::cambiaf_a_normal($aRow['vencimiento']).'","'.$incl.'","'.  $total.'","'.$estado.'", ';
 
                 /*
                  * configurando botones (add/edit/delete etc)
@@ -202,7 +210,7 @@ class generarCotizacionController extends Controller{
             <hr>
             <p>Atte:<br/>
             <b>'.$vendedor.'</b><br/>
-            <i>Representante Corporativo</i><br/>
+            <i>Ejecutivo de Ventas</i><br/>
             Cel#: '.$numVendedor.'<br/>
             <a href="'.URL_WEBSITE.'">'.URL_WEBSITE.'</a></p>';
          
@@ -214,10 +222,12 @@ class generarCotizacionController extends Controller{
         
         $mail->AddAddress($emailCliente, $cliente);
         $mail->AddBCC($emailEmpresa, $empresa);
-        $mail->Subject    = "Cotizacion Nro: ".$numCotizacion;
+        $mail->AddBCC($emailUser, $vendedor);
+        $mail->Subject    = "Cotizacion SEVEND Marketing ";
         
         $mail->MsgHTML($body);
         $mail->AddAttachment('public/files/'.$archivo);      // attachment
+        $mail->CharSet = 'UTF-8';
         
         $data = array('result'=>2);
         if($mail->Send()) {
@@ -238,16 +248,20 @@ class generarCotizacionController extends Controller{
                
         $mpdf = new mPDF('c');     
         
+        //pie de página:
+        $pie = Obj::run()->generarCotizacionModel->getPiePagina();
+        
         if($data[0]['estado'] == 'A'){
            $mpdf->SetWatermarkText('A N U L A D O');
            $mpdf->showWatermarkText = true;         
         }              
         $mpdf->SetHTMLHeader('<img src="'.ROOT.'public'.DS.'img'.DS.'logotipo.png" width="137" height="68" />','',TRUE);
+
         $mpdf->SetHTMLFooter('<table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt; color: #000000; font-weight: bold;"><tr>
-                                <td width="33%"><span style="font-weight: bold;">{DATE j-m-Y}</span></td>
+                                <td width="33%"><span style="font-weight: bold;">{DATE j/m/Y}</span></td>
                                 <td width="33%" align="center" style="font-weight: bold;">{PAGENO}/{nbpg}</td>
                                 <td width="33%" style="text-align: right; ">'.LB_EMPRESA.'</td>
-                             </tr></table>');
+                             </tr></table><p style="text-align:center;"><span style="font-weight: bold; font-size:13px;">'.$pie['valor'].'</span></p>');
                 
         $html = $this->getHtmlCotizacion();         
 
@@ -309,53 +323,55 @@ class generarCotizacionController extends Controller{
         
         $html .='<table width="100%" border="0" cellpadding="5" cellspacing="3">
           <tr bgcolor="#901D78">
-            <th colspan="6"><div align="center"><h2 style="color:#FFF;">PRESUPUESTO DE PANELES</h2></div></th>
+            <th colspan="7"><div align="center"><h2 style="color:#FFF;">COTIZACION DE SERVICIO</h2></div></th>
           </tr>
           <tr>
-            <td width="13%"><strong>N° Cotización:</strong></td>
+            <td width="13%"><strong>'.LABEL_GNC29.':</strong></td>
             <td width="26%"><h3>'.$data[0]['cotizacion_numero'].'</h3></td>
-            <td width="15%"><strong>Fecha:</strong></td>
+            <td width="15%"><strong>'.LABEL_GNC30.':</strong></td>
             <td width="15%">'.Functions::cambiaf_a_normal($data[0]['fecha_cotizacion']).'</td>
-            <td width="20%"><strong>Fecha Vencimiento:</strong></td>
+            <td width="20%"><strong>'.LABEL_GNC31.':</strong></td>
             <td width="15%">'.Functions::cambiaf_a_normal($data[0]['vencimiento']).'</td>
           </tr>
           <tr>
-            <td><strong>Cliente:</strong></td>
-            <td colspan="2">'.($data[0]['ruccliente']==''?'':$data[0]['ruccliente'].' - ').$data[0]['razonsocial'].'</td>
-            <td align="right"><strong>Estado:</strong></td>
-            <td colspan="2">'.$estado.'</td>
+            <td><strong>'.LABEL_GNC3.':</strong></td>
+            <td colspan="5">'.($data[0]['ruccliente']==''?'':$data[0]['ruccliente'].' - ').$data[0]['razonsocial'].'</td>           
           </tr>
-          <tr>
-            <td><strong>Representante:</strong></td>
+         <!-- <tr>
+            <td><strong>'.LABEL_GNC33.':</strong></td>
             <td colspan="5">'.($data[0]['numerodocumento']==''?'':$data[0]['numerodocumento'].' - ').$data[0]['nombrecompleto'].'</td>
-          </tr>
+          </tr> -->
           <tr>
-            <td><strong>Campaña:</strong></td>
-            <td colspan="2">'.$data[0]['nombre_campania'].'</td> 
-            <td align="right" ><strong>Tiempo :</strong></td>
-            <td colspan="2">'.  Functions::convertirDiaMes($data[0]['cantidad_mes']).' ('. number_format($data[0]['cantidad_mes'],1).')</td>   
+            <td><strong>'.LABEL_GNC26.':</strong></td>
+            <td colspan="3">'.$data[0]['nombre_campania'].'</td> 
+            <td align="right" ><strong>'.LABEL_GNC34.' :</strong></td>
+            <td colspan="2">'.  Functions::convertirDiaMes($data[0]['cantidad_mes']).' ('. number_format($data[0]['cantidad_mes'],2).')</td>   
           </tr>
+         <tr>
+            <td ><strong>'.LABEL_GNC32.':</strong></td>
+            <td colspan="2">'.$estado.'</td>
+         </tr>
         </table> 
         <br />
         <table id="td2" border="1" style="border-collapse:collapse">
             <tr>
-                <th style="width:9%" >Código</th>
-                <th style="width:10%">Elemento</th>
-                <th style="width:45%">Ubicación</th>
-                <th style="width:8%">Area</th>
-                <th style="width:12%">Alquiler</th>
-                <th style="width:12%">Producción</th>
-                <th style="width:12%">Total</th>
+                <th style="width:9%" >'.LABEL_A37.'</th>
+                <th style="width:10%">'.LABEL_A27.'</th>
+                <th style="width:45%">'.LABEL_A26.'</th>
+                <th style="width:8%">'.LABEL_A47.'</th>
+                <th style="width:12%">'.GNOSE_30.'</th>
+                <th style="width:12%">'.LABEL_A45.'</th>
+                <th style="width:12%">'.ORINS_18.'</th>
             </tr>';
         foreach ($data as $value) {
             
             if($value['incluyeigv'] == '1'){
-                $icl = 'Si';
+                $icl = '';
                 $precio = number_format($value['precio_incigv'] * $value['cantidad_mes'] ,3);
                 $produccion = number_format($value['produccion_incigv'],3);
                 $importe = number_format($value['importe_incigv'],3);
             }else{
-                $icl = 'No';
+                $icl = 'no';
                 $precio = number_format($value['precio'] * $value['cantidad_mes'],2);
                 $produccion = number_format($value['costo_produccion'],2);
                 $importe = number_format($value['importe'],2);
@@ -371,15 +387,14 @@ class generarCotizacionController extends Controller{
                 <td style="text-align:right">S/.'.$importe.'</td>
             </tr>';
         }    
-        $html .= '<tr><td colspan="5"></td><td>Importe:</td><td style="text-align:right">S/.'.number_format($data[0]['subtotal'],2).'</td></tr>';
-        $html .= '<tr><td colspan="5"></td><td>IGV '.(number_format($data[0]['pigv']*100)).'%:</td><td style="text-align:right">S/.'.number_format($data[0]['impuesto'],2).'</td></tr>';
-        $html .= '<tr><td colspan="6"></td><td class="totales" style="text-align:right; font-weight:bold;">S/.'.number_format($data[0]['total'],2).'</td></tr>';
+        $html .= '<tr><td colspan="5"></td><td>'.LABEL_13.':</td><td style="text-align:right">S/.'.number_format($data[0]['subtotal'],2).'</td></tr>';
+        $html .= '<tr><td colspan="5"></td><td>'.LABEL_GNC6.' '.(number_format($data[0]['pigv']*100)).'%:</td><td style="text-align:right">S/.'.number_format($data[0]['impuesto'],2).'</td></tr>';
+        $html .= '<tr><td colspan="5"></td><td>Total:</td><td class="totales" style="text-align:right; font-weight:bold;">S/.'.number_format($data[0]['total'],2).'</td></tr>';
         
         $html .='</table>';
-        
-            
-        $html .= '<h3 style="color:#F00">* Las Tarifas Son Netas y '.$icl.' Incluyen IGV.</h3>';
-        $html .= '<h4 style="color:#000">Comentarios:</h4>';
+                           
+        $html .= '<h4 style="color:#000">'.LABEL_GNC35.':</h4>';
+         $html .= '<p style="color:#F00">- Los precios '.$icl.' incluyen IGV.</p>';
         if ($data[0]['valor_produccion'] > 0 ):
             $html .= '<p>- El costo del M<sup>2</sup> de producción es de S/. '.number_format($data[0]['valor_produccion'],2).'</p>';
         endif;        

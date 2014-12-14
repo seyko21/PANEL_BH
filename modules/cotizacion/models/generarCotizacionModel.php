@@ -71,7 +71,7 @@ class generarCotizacionModel extends Model{
     }
     
     public function getGridCotizacion() {
-        $aColumns       =   array( '','cotizacion_numero','nombrecompleto' ,'fechacoti','meses_contrato','13','total','estado'); //para la ordenacion y pintado en html
+        $aColumns       =   array( '','cotizacion_numero','nombrecompleto' ,'fechacoti','13','incluyeigv','total','estado'); //para la ordenacion y pintado en html
         /*
 	 * Ordenando, se verifica por que columna se ordenara
 	 */
@@ -250,7 +250,7 @@ class generarCotizacionModel extends Model{
                 (SELECT pp.nombrecompleto 
                 FROM mae_persona pp WHERE pp.id_persona=p.id_personapadre) AS razon_social
          FROM mae_persona p
-         WHERE  ".$all." p.id_personapadre <> '' ) as t
+         WHERE  p.estado <> '0' and ".$all." p.id_personapadre <> '' and p.id_empresa = 1 ) as t
          where (
                    t.nombrecompleto LIKE CONCAT('%',:cliente,'%') or
                    t.razon_social LIKE CONCAT('%',:cliente,'%') 
@@ -344,7 +344,14 @@ class generarCotizacionModel extends Model{
         );
         $data = $this->execute($query,$parms);            
     }
-    
+     public function getPiePagina(){
+        $query = "SELECT valor FROM `pub_parametro` WHERE alias = :alias;";
+        $parms = array(
+            ':alias' => 'PIE'
+        );
+        $data = $this->queryOne($query,$parms);
+        return $data;
+    }   
 }
 
 ?>

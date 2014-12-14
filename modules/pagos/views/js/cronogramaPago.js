@@ -44,7 +44,7 @@ var cronogramaPago_ = function(){
             }
         });
     };
-    
+     
     this.publico.getGridOrdenes = function (){
         var oTable = $("#"+diccionario.tabs.CROPA+"getGridOrdenes").dataTable({
             bProcessing: true,
@@ -79,7 +79,13 @@ var cronogramaPago_ = function(){
                     container: "#widget_"+diccionario.tabs.CROPA,
                     typeElement: "button"
                 });
-            }
+            $('#'+diccionario.tabs.CROPA+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.CROPA+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
         setup_widgets_desktop();
     };
@@ -155,8 +161,10 @@ var cronogramaPago_ = function(){
                 if(!isNaN(data.result) && parseInt(data.result) === 1){
                     simpleScript.notify.ok({
                         content: mensajes.MSG_3,
-                        callback: function(){
-                            cronogramaPago.getGridOrdenes();
+                        callback: function(){                            
+                            setTimeout(function(){
+                                        simpleScript.reloadGrid('#'+diccionario.tabs.CROPA+'getGridOrdenes');
+                                    },1000);
                             simpleScript.closeModal('#'+diccionario.tabs.CROPA+'formPagarOrdenParametros');
                             $("#"+_private.fila+diccionario.tabs.CROPA+"dfecha").html(data.fecha);
                             $("#"+_private.fila+diccionario.tabs.CROPA+"tr_estado").html('<span class="label label-success">Pagado</span>');
@@ -167,7 +175,7 @@ var cronogramaPago_ = function(){
 //                            $('#'+diccionario.tabs.CROPA+_private.fila+'btnAnular').click(function(){
 //                                cronogramaPago.postAnularPago(this,_private.idCompromiso);
 //                            });
-                            cronogramaPago.getTableCronograma();
+                            cronogramaPago.getTableCronograma();                            
                             _private.idCompromiso = 0;
                             _private.boton = 0;
                             _private.fila = 0;
@@ -211,6 +219,9 @@ var cronogramaPago_ = function(){
                         content: mensajes.MSG_3,
                         callback: function(){
                             cronogramaPago.getTableCronograma();
+                            setTimeout(function(){
+                                        simpleScript.reloadGrid('#'+diccionario.tabs.CROPA+'getGridOrdenes');
+                                    },1000);
                             simpleScript.closeModal('#'+diccionario.tabs.CROPA+'formReprogramar');
                             _private.idCompromiso = 0;
                             _private.fila = 0;
@@ -235,7 +246,14 @@ var cronogramaPago_ = function(){
                                 content: mensajes.MSG_17,
                                 callback: function(){
                                     cronogramaPago.getTableCronograma();
+                                    setTimeout(function(){
+                                        simpleScript.reloadGrid('#'+diccionario.tabs.CROPA+'getGridOrdenes');
+                                    },1000);
                                 }
+                            });
+                        }else if(!isNaN(data.result) && parseInt(data.result) === 2){
+                            simpleScript.notify.warning({
+                                content: 'No se puede anular este pago. Debe de Anular sus ordenes de instalación para realizar este proceso.'
                             });
                         }
                     }

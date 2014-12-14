@@ -71,14 +71,20 @@ var liquidacionCliente_ = function(){
                 aoData.push({"name": "_f2", "value": _f2}); 
             },
             fnDrawCallback: function() {
-                $("#"+diccionario.tabs.LICL+"gridLiquidacionCliente_filter").find("input").attr("placeholder","Buscar por nombre").css("width","200px");
+                $("#"+diccionario.tabs.LICL+"gridLiquidacionCliente_filter").find("input").attr("placeholder","Buscar por razón social").css("width","200px");
                 simpleScript.enterSearch("#"+diccionario.tabs.LICL+"gridLiquidacionCliente",oTable);
                 /*para hacer evento invisible*/
                 simpleScript.removeAttr.click({
                     container: "#widget_"+diccionario.tabs.LICL,
                     typeElement: "button, a"
                 });
-            }
+              $('#'+diccionario.tabs.LICL+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.LICL+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
         setup_widgets_desktop();
     };

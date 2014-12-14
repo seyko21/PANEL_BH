@@ -269,7 +269,6 @@ $data = socioController::findSocio();
 <?php endif; ?>
 <script>
     $('#<?php echo TAB_SOCIO; ?>formEditSocio').validate({
-        // Rules for form validation
         rules : {
                 <?php echo TAB_SOCIO; ?>txt_nombres : {
                         required : true,
@@ -287,15 +286,13 @@ $data = socioController::findSocio();
                         minlength: 3
                 },
                 <?php echo TAB_SOCIO; ?>txt_nrodocumento:{
-                        required: true,
                         number: true,
                         maxlength: 12
                 },
                 <?php echo TAB_SOCIO; ?>txt_dni:{
-                        required: true,
                         number: true,
                         maxlength: 8
-                },        
+                },   
                 <?php echo TAB_SOCIO; ?>lst_departamento : {
                         required : true
                 },
@@ -305,18 +302,12 @@ $data = socioController::findSocio();
                 <?php echo TAB_SOCIO; ?>lst_ubigeo : {
                         required : true
                 },
-                <?php echo TAB_SOCIO; ?>txt_direccion : {
-                        required : true,
-                        regular2: true,
-                        minlength: 3
-                },
                 <?php echo TAB_SOCIO; ?>txt_email : {
                         required : true,
                         email: true
                 }    
         },
 
-        // Do not change code below
         errorPlacement : function(error, element) {
                 error.insertAfter(element.parent());
         },

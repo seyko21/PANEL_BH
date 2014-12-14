@@ -69,6 +69,7 @@ var alquilerCulminar_ = function(){
             },     
             fnDrawCallback: function() {
                 $("#"+diccionario.tabs.CALCU+"gridAlquilerCulminar_filter").find("input").attr("placeholder","Buscar por N° OS o Caratula o Cliente").css("width","350px");
+                simpleScript.enterSearch("#"+diccionario.tabs.CALCU+'gridAlquilerCulminar',oTable);
                 /*para hacer evento invisible*/
                 simpleScript.removeAttr.click({
                     container: "#widget_"+diccionario.tabs.CALCU,
@@ -78,17 +79,24 @@ var alquilerCulminar_ = function(){
                     container: "#widget_"+diccionario.tabs.CALCU,
                     typeElement: "select"
                 });
-            }
+                $('#'+diccionario.tabs.CALCU+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.CALCU+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
+            
         });
         setup_widgets_desktop();
     };
       
     this.publico.getGridIndexAlquilerCulminar = function (){
-         $('#'+diccionario.tabs.PANP+'gridAlquilerCulmina').dataTable({
+        var oTable = $('#'+diccionario.tabs.PANP+'gridAlquilerCulmina').dataTable({
             bProcessing: true,
             bServerSide: true,
             bDestroy: true,
-            sPaginationType: "bootstrap_full", //two_button
+            sPaginationType: "bootstrap_full", 
             sServerMethod: "POST",
             bPaginate: true,
             iDisplayLength: 10,   
@@ -103,7 +111,15 @@ var alquilerCulminar_ = function(){
             ],
             aaSorting: [[0, 'asc']],
             sScrollY: "125px",
-            sAjaxSource: _private.config.modulo+'getGridIndexAlquilerCulminar'            
+            sAjaxSource: _private.config.modulo+'getGridIndexAlquilerCulminar',
+            fnDrawCallback: function() {            
+              $('#'+diccionario.tabs.PANP+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.PANP+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
 
     };      

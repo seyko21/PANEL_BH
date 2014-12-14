@@ -74,7 +74,13 @@ var socio_ = function(){
                     container: '#widget_'+diccionario.tabs.TAB_SOCIO, //widget del datagrid
                     typeElement: 'button, #'+diccionario.tabs.TAB_SOCIO+'chk_all'
                 });
-            }
+                $('#'+diccionario.tabs.TAB_SOCIO+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.TAB_SOCIO+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
         setup_widgets_desktop();
     };
@@ -185,7 +191,11 @@ var socio_ = function(){
                     });
                 }else if(!isNaN(data.result) && parseInt(data.result) === 2){
                     simpleScript.notify.error({
-                        content: mensajes.MSG_4
+                        content: 'Numero de Documento ya existe en la Base de datos'
+                    });
+                }else if(!isNaN(data.result) && parseInt(data.result) === 3){
+                    simpleScript.notify.error({
+                        content:  'E-mail ya existe en la Base de datos'
                     });
                 }
             }
@@ -210,9 +220,13 @@ var socio_ = function(){
                             simpleScript.closeModal('#'+diccionario.tabs.TAB_SOCIO+'formEditSocio');
                         }
                     });
-                }else if(!isNaN(data.result) && parseInt(data.result) === 2){
+               }else if(!isNaN(data.result) && parseInt(data.result) === 2){
                     simpleScript.notify.error({
-                        content: mensajes.MSG_4
+                        content: 'Numero de Documento ya existe en la Base de datos'
+                    });
+                }else if(!isNaN(data.result) && parseInt(data.result) === 3){
+                    simpleScript.notify.error({
+                        content:  'E-mail ya existe en la Base de datos'
                     });
                 }
             }

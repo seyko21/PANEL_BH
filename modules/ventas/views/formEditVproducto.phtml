@@ -1,0 +1,175 @@
+<?php /*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 07-11-2014 00:11:47 
+* Descripcion : formEditVproducto.phtml
+* ---------------------------------------
+*/
+
+/*prefijo: VPROD debe ser alias en tabla men_menuprincipal*/
+$editar = Session::getPermiso("VPRODACT");
+    
+$data = vproductoController::findVproducto();
+
+?>
+<form id="<?php echo VPROD; ?>formEditVproducto" name="<?php echo VPROD; ?>formEditVproducto" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"><?php echo VPROD3;?></h4>
+            </div>
+            <div class="modal-body smart-form"> 
+               <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo VPROD4; ?></label>
+                        <div class="col col-10">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-keyboard-o"></i>
+                                <input type="text" id="<?php echo VPROD; ?>txt_descripcion" name="<?php echo VPROD; ?>txt_descripcion" value="<?php echo $data["descripcion"] ?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo VPROD4M; ?></b>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <!-- Combo unidad de Medida-->
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo VPROD6; ?></label>
+                        <div class="col col-8">
+                            <label class="select"> 
+                                <?php
+                                    $datac = vproductoController::getUnidadMedida();
+                                    
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$datac,
+                                        'atributes'=>array(
+                                            'id'=>VPROD.'lst_unidadMedida',
+                                            'name'=>VPROD.'lst_unidadMedida'
+                                        ),
+                                        'etiqueta'=>'nombre',
+                                        'value'=>'id_unidadmedida',
+                                        'defaultEtiqueta'=>$data['id_unidadmedida'],
+                                        'txtSelect'=>true
+                                    ));
+                                ?><i></i>
+                            </label>
+                        </div>
+                        <?php if ($nuevo['permiso']): ?>
+                        <button id="<?php echo VPROD; ?>btnNew" type="button" onclick="vunidadMedida.getFormNewVunidadMedida(this,'#<?php echo VPROD; ?>lst_unidadMedida');" class="<?php echo $nuevo['theme'];?>" title="<?php echo $nuevo['accion'];?>">
+                                <i class="<?php echo $nuevo['icono'];?> pd8"></i>
+                            </button>
+                        <?php endif; ?>
+                    </div>
+               
+                </section>   
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo VPROD5; ?></label>
+                        <div class="col col-4">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-money"></i>
+                                <input type="text" id="<?php echo VPROD; ?>txt_precio" name="<?php echo VPROD; ?>txt_precio" value="<?php echo number_format($data["precio"],2) ?>">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo VPROD5M; ?></b>
+                            </label>
+                        </div>
+                       <label class="label col col-1"><?php echo VPROD7; ?></label>
+                        <div class="col col-5">
+                            <label class="select"> 
+                                <?php
+//                                    $moneda = Array (
+//                                            Array ( 'id' => 'SO', 'descripcion' => MONEDA_1 ),
+//                                            Array ( 'id' => 'DO', 'descripcion' => MONEDA_2 )
+//                                    );     
+                                    $moneda = vproductoController::getMoneda();
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$moneda,
+                                        'atributes'=>array(
+                                            'id'=>VPROD.'lst_moneda',
+                                            'name'=>VPROD.'lst_moneda'
+                                        ),
+                                        'etiqueta'=>'descripcion',
+                                        'value'=>'id',
+                                        'defaultEtiqueta'=>$data["moneda"],
+                                        'txtSelect'=>false
+                                    ));
+                                ?><i></i>
+                            </label>
+                        </div>                         
+                    </div>
+                </section>    
+               <section>
+                    <div class="row">
+                        <label class="label col col-2" for="prepend"><?php echo LABEL_GNC16; ?></label>
+                        <div class="col col-3">
+                            <div class="select">
+                                <?php
+                                    $igv = Array (
+                                            Array ( 'id' => 'S', 'descripcion' => LABEL_GNC17 ),
+                                            Array ( 'id' => 'N', 'descripcion' => LABEL_GNC18 )
+                                    );     
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$igv,
+                                        'atributes'=>array(
+                                            'id'=>VPROD.'lst_igv',
+                                            'name'=>VPROD.'lst_igv'
+                                        ),
+                                        'etiqueta'=>'descripcion',
+                                        'value'=>'id',
+                                        'defaultEtiqueta'=>$data["incligv"],
+                                        'txtSelect'=>false
+                                    ));
+                                ?><i></i>                                                                
+                            </div>
+                        </div>
+                    </div>
+                </section>  
+            </div>
+            <div class="modal-footer">
+                <div class="foot-obligar"></div>
+                <?php if($editar["permiso"]):?>
+                <button id="<?php echo VPROD; ?>btnEdVproducto" type="submit" class="<?php echo $editar["theme"]; ?>">
+                    <i class="<?php echo $editar["icono"]; ?>"></i> <?php echo $editar["accion"]; ?>
+                </button>
+                <?php endif; ?>
+                <button type="button" class="<?php echo THEME_CLOSE; ?>">
+                    <i class="<?php echo ICON_CLOSE; ?>"></i> <?php echo BTN_CLOSE; ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</form>
+<!-- si no tiene permiso se anula submit desde cualquier input -->
+<?php if(!$editar["permiso"]): ?>
+<script>
+    simpleScript.noSubmit("#<?php echo VPROD; ?>formEditVproducto");
+</script>
+<?php endif; ?>
+<script>
+/*configurar validacion de formulario -- este codigo es de ejemplo*/
+$("#<?php echo VPROD; ?>formEditVproducto").validate({
+    // Rules for form validation
+    rules : {
+        <?php echo VPROD; ?>txt_descripcion : {
+            required : true,
+            minlength: 2
+        },
+         <?php echo VPROD; ?>lst_unidadMedida : {
+            required : true
+        },
+         <?php echo VPROD; ?>txt_precio : {
+            required : true,
+            number : true 
+        }
+    },
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parent());
+    },
+
+    submitHandler: function(){
+        vproducto.postEditVproducto();
+    }   
+});
+</script>

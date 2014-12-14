@@ -1,0 +1,65 @@
+<?php 
+/*
+* ---------------------------------------
+* --------- CREATED BY CREATOR ----------
+* fecha: 21-11-2014 23:11:45 
+* Descripcion : indexPanelDisponible.phtml
+* ---------------------------------------
+*/
+$pdf    = Session::getPermiso("PANEDEP");
+$buscar    = Session::getPermiso("PANEDBS");
+
+echo Functions::widgetOpen(array(
+        "id"=>PANED,
+        "title"=>PANED_1
+    )); 
+?>
+<button id="<?php echo PANED; ?>btnDowPDF" type="button" class="hide">Descargar</button>
+   <div class="widget-body-toolbar " style="margin:0px; padding:10px ">  
+          <div class="smart-form" style="position: absolute;left:300px;top:5px;width: 65%; "> 
+            <label class="label col col-7 pull-left"><?php echo PANED_2; ?></label>
+            <label class="input pull-left col col-4" >
+                 <label class="select"> 
+                                <?php
+                                   $datal = panelDisponibleController::getListadoCiudad();                                                                                                   
+                                    echo Functions::selectHtml(array(
+                                        'data'=>$datal,
+                                        'atributes'=>array(
+                                            'id'=>PANED.'lst_ciudad',
+                                            'name'=>PANED.'lst_ciudad',
+                                            'onchange'=>'panelDisponible.getGridPanelDisponible();'
+                                        ),
+                                        'etiqueta'=>'descripcion',
+                                        'value'=>'id',
+                                        'defaultEtiqueta'=>'',
+                                        'txtAll'=>true
+                                    ));
+                                ?><i></i>
+                            </label>
+            </label>                         
+            <div class="col col-5 pull-left" style="padding-left:30px;" >                      
+                <button id="<?php echo VRPT3; ?>btnRefresh" type="button"  
+                        onclick="panelDisponible.getGridPanelDisponible();"
+                         class="<?php echo $buscar['theme'];?> btn-sm"  >
+                      <i class="<?php echo $buscar['icono'];?>"></i> <?php echo $buscar['accion'];?>
+                 </button> 
+                  <button id="<?php echo VRPT2; ?>btnPDF" type="button" style="margin-top: -2px;" 
+                        onclick="panelDisponible.postPDF(this);" 
+                        class="<?php echo $pdf['theme'];?> btn-sm"  >
+                      <i class="<?php echo $pdf['icono'];?>"></i> <?php echo $pdf['accion'];?>
+                </button>  
+               </div>
+          
+        </div>
+    </div>
+    <div class="dataTables_wrapper form-inline" role="grid">
+        <div class="dt-top-row">
+            <div class="DTTT btn-group">              
+            </div>
+        </div>
+
+    </div>
+    <form id="<?php echo PANED; ?>formGridPanelDisponible" name="<?php echo PANED; ?>formGridPanelDisponible" onsubmit="return false"  >
+        <table id="<?php echo PANED; ?>gridPanelDisponible" class="table table-striped table-hover table-condensed" style="width:100%"></table>
+    </form>
+<?php echo Functions::widgetClose(); ?>

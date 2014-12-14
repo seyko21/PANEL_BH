@@ -20,11 +20,14 @@ class loginController extends Controller{
             Session::set('sys_idPersona', $data['id_persona']);
             Session::set('sys_usuario', $data['usuario']);
             Session::set('sys_nombreUsuario', $data['nombrecompleto']);
+            Session::set('sys_idSucursal', $data['id_sucursal']);
+            Session::set('sys_idEmpresa', $data['id_empresa']);
             Obj::run()->loginModel->postLastLogin();
             /*los roles*/
             Session::set('sys_roles', Obj::run()->loginModel->getRoles());
             
-            $rol = Session::get('sys_roles');
+            $rol = Session::get('sys_roles');            
+            
             /*asignando rol por defecto*/
             Session::set('sys_defaultRol',$rol[0]['id_rol']);
                         
@@ -79,7 +82,7 @@ class loginController extends Controller{
         $mail->AddAddress($email, $nombres);
 
         $mail->Subject = "Proceso de recuperacion de Acceso en ".LB_EMPRESA;
-
+        $mail->CharSet = 'UTF-8';
         $mail->MsgHTML($body);
 
         if ($mail->Send()) {

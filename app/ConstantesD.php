@@ -42,5 +42,22 @@ define("LISOC","LISOC");             /*tab modulo LIQUIDACIONSOCIO*/
 define("PAINV","PAINV");             /*tab modulo PANELESINVERTIDO*/
 define("CREIN","CREIN");             /*tab modulo RETORNODEINVERSION*/
 define("GPASO","GPASO");             /*tab modulo PAGOSOCIO*/
+define("VUNID","VUNID");             /*tab modulo VUNIDADMEDIDA*/
+define("VPROD","VPROD");             /*tab modulo VPRODUCTO*/
+define("VGEVE","VGEVE");             /*tab modulo Generar Venta*/
+define("VRECL","VRECL");             /*tab modulo VCLIENTE*/
+define("VSEVE","VSEVE");             /*tab modulo VSEGUIMIENTOVENTA*/
+define("VCSCL","VCSCL");             /*tab modulo VCONSULTASALDO*/
+define("VRPT1","VRPT1");             /*tab modulo REPORTEVENTADIA*/
+define("VRPT2","VRPT2");             /*tab modulo REPORTEVENTAFECHA*/
+define("VRPT3","VRPT3");             /*tab modulo REPORTEGRAFICOMES*/
+define("VRPT4","VRPT4");             /*tab modulo REPORTEPRODUCTOMES*/
+define("PANED","PANED");             /*tab modulo PANELDISPONIBLE*/
+define("VRPT5","VRPT5");             /*tab modulo VLISTADOPRECIOS*/
+define("VEGRE","VEGRE");             /*tab modulo VEGRESOS*/
+define("VCOTI","VCOTI");             /*tab modulo VEGRESOS*/
+define("CAJAA","CAJAA");             /*tab modulo CAJAAPERTURA*/
+define("CAJAC","CAJAC");             /*tab modulo CAJACIERRE*/
+
 
 ?>

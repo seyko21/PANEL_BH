@@ -78,7 +78,7 @@ class generarOrdenController extends Controller{
                 
                 $c1 = $aRow['orden_numero'];
                 $c2 = $aRow['cotizacion_numero'];
-                $c3 = $aRow['cliente'].' - '.$aRow['nombrecompleto'];
+                $c3 = $aRow['cliente'];
                 $c4 = $aRow['fecha'];
                 $c5 = Functions::convertirDiaMes($aRow['meses_contrato']);
                 
@@ -104,7 +104,7 @@ class generarOrdenController extends Controller{
                     $sOutput .= '    <i class=\"'.$editar['icono'].'\"></i>';
                     $sOutput .= '</button>';
                 }
-                if($generar['permiso']){
+                if($generar['permiso'] && $aRow['estado'] <> 'A'){
                     $sOutput .= '<button type=\"button\" class=\"'.$generar['theme'].'\" title=\"'.$generar['accion'].' '.GNOSE_2.'\" onclick=\"generarOrden.getFormCronograma(this,\''.$encryptReg.'\',\''.$aRow['monto_total'].'\',\''.$aRow['orden_numero'].'\')\">';
                     $sOutput .= '    <i class=\"'.$generar['icono'].'\"></i>';
                     $sOutput .= '</button>';
@@ -293,7 +293,7 @@ class generarOrdenController extends Controller{
         
         foreach ($caratula as $v) {
             
-            if ($value['incluyeigv'] == '0'){
+            if ($value['incluyeigv'] == '1'){
                 $precio = number_format($v['precio'],2);    
                 $produccion = number_format($v['costo_produccion'],2);    
             }
@@ -326,8 +326,6 @@ class generarOrdenController extends Controller{
                 . '<td style="text-align:right;width:15%">S/.'.number_format($caratula[0]['monto_venta'],2).'</td>'
                 . '<td style="text-align:right;width:10%"><b>IGV '.(number_format($caratula[0]['porcentaje_impuesto']*100)).'%:</b></td>'
                 . '<td style="text-align:right;width:15%">S/.'.number_format($caratula[0]['monto_impuesto'],2).'</td>'
-                . '<td style="text-align:right;width:10%"><b>Total:</b></td>'
-                . '<td style="text-align:right;width:15%">S/.'.number_format($caratula[0]['monto_total'],2).'</td>'                
                 . '</tr>'
                 . '</table>';
         
@@ -351,11 +349,11 @@ class generarOrdenController extends Controller{
         $ruc = '';
         if($contrato['numerodocumento'] != ''){ $ruc = ' con RUC '.$contrato['numerodocumento']; }
                 
-        if ($contrato['incluyeIGV'] == '0'){
-            $incluyeIGV = 'Los precios no incluyen IGV';            
+        if ($contrato['flag_impuesto'] == '1'){
+            $incluyeIGV = 'No incluye IGV';            
         }
         else{
-            $incluyeIGV = 'Los precios incluyen IGV';
+            $incluyeIGV = 'Incluye IGV';
         }        
                 
         $diaoferta = '';

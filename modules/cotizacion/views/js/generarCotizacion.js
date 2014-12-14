@@ -47,11 +47,11 @@ var generarCotizacion_ = function(){
             aoColumns: [
                 {sTitle: "<input type='checkbox' id='"+diccionario.tabs.T8+"chk_all' onclick='simpleScript.checkAll(this,\"#"+diccionario.tabs.T8+"xgridGenerarCotizacion\");'>", sWidth: "1%", sClass: "center", bSortable: false},
                 {sTitle: "Código", sClass: "center",sWidth: "10%"},
-                {sTitle: "Prospecto", sWidth: "16%"},
-                {sTitle: "Vendedor", sWidth: "16%"},
-                {sTitle: "Fecha", sWidth: "9%",sClass: "center"},                
-                {sTitle: "F. Venc.", sWidth: "9%", sClass: "center"},
-                {sTitle: "Total", sWidth: "10%", sClass: "right"},
+                {sTitle: "Prospecto", sWidth: "28%"},
+                {sTitle: "Fecha", sWidth: "8%",sClass: "center"},                
+                {sTitle: "F. Venc.", sWidth: "8%", sClass: "center"},
+                {sTitle: "Incl. IGV", sWidth: "6%", sClass: "center"},                
+                {sTitle: "Total", sWidth: "12%", sClass: "right"},
                 {sTitle: "Estado", sWidth: "9%", sClass: "center"},
                 {sTitle: "Acciones", sWidth: "10%", sClass: "center", bSortable: false}
             ],
@@ -66,7 +66,13 @@ var generarCotizacion_ = function(){
                     container: '#widget_'+diccionario.tabs.T8,
                     typeElement: 'button'
                 });
-            }
+                $('#'+diccionario.tabs.T8+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.T8+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
         setup_widgets_desktop();
     };

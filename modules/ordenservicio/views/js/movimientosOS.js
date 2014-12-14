@@ -78,6 +78,7 @@ var movimientosOS_ = function(){
             },            
             fnDrawCallback: function() {
                 $("#"+diccionario.tabs.MOVOS+"gridMovimientosOS_filter").find("input").attr("placeholder","Buscar por N° OS").css("width","200px");
+                simpleScript.enterSearch("#"+diccionario.tabs.MOVOS+'gridMovimientosOS',oTable);
                 /*para hacer evento invisible*/
                 simpleScript.removeAttr.click({
                     container: "#widget_"+diccionario.tabs.MOVOS,
@@ -87,7 +88,13 @@ var movimientosOS_ = function(){
                     container: "#widget_"+diccionario.tabs.MOVOS,
                     typeElement: "select"
                 });
-            }
+                $('#'+diccionario.tabs.MOVOS+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.MOVOS+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
         setup_widgets_desktop();
     };
@@ -192,7 +199,7 @@ var movimientosOS_ = function(){
             aoColumns: [                
                 {sTitle: "Código", sWidth: "7%", sClass: "center"},
                 {sTitle: "Tiempo", sWidth: "15%", sClass: "center"},
-                {sTitle: "Alquiler", sWidth: "10%", sClass: "right"},
+                {sTitle: "Alquiler + Prod", sWidth: "10%", sClass: "right"},
                 {sTitle: "Impuesto", sWidth: "10%", sClass: "right"},
                 {sTitle: "Egresos", sWidth: "10%", sClass: "right"},
                 {sTitle: "Utilidad", sWidth: "10%", sClass: "right"}

@@ -68,23 +68,69 @@ $estado = Formulario::getParam('_estado');
                 </section>
                 <section>
                     <div class="row">
-                        <label class="label col col-2"><?php echo GNOSE_21; ?></label>
+                         <label class="label col col-2"><?php echo GNOSE_36; ?></label>
+                           <div class="col col-3">
+                               <label class="checkbox">
+                                   <input type="checkbox"  <?php echo ($data['incluyeigv'] == '1')?'checked':'' ?> name="<?php echo GNOSE; ?>chk_incl" id="<?php echo GNOSE; ?>chk_incl" value="1" disabled="disabled" ></input>
+                                   <i></i>
+                                   <?php echo GNOSE_37; ?>
+                               </label>
+                           </div>                    
+                     <?php if( $data['incluyeigv'] == '0' ): ?>                                              
+                        <label class="label col col-2"><?php echo GNOSE_31; ?></label>
+                           <div class="col col-2">
+                               <label class="checkbox">
+                                   <input type="checkbox" <?php echo ($data['flag_impuesto'] == '1')?'checked':'' ?>  name="<?php echo GNOSE; ?>chk_impuesto" id="<?php echo GNOSE; ?>chk_impuesto" value="1" onclick="generarOrdenScript.calcularImpuesto();" ></input>
+                                   <i></i>
+                                   <?php echo CK_ACTIVO; ?>
+                               </label>
+                           </div>                      
+                     <?php endif; ?>
+                    </div>
+                </section>   
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo GNOSE_32; ?></label>
                         <div class="col col-3">
                             <label class="input"> 
-                                <i class="icon-append fa fa-clock-o"></i>
-                                <input class="right" type="text" id="<?php echo GNOSE; ?>txt_oferta" name="<?php echo GNOSE; ?>txt_oferta" value="<?php echo number_format($data['dias_oferta'])?>">
-                                <b class="tooltip tooltip-top-right"><i class="fa fa-keyboard-o txt-color-teal"></i> <?php echo GNOSE_22; ?></b>
+                                <i class="icon-append fa fa-money "></i>
+                                <input type="text" id="<?php echo GNOSE; ?>txt_venta" name="<?php echo GNOSE; ?>txt_venta" value="<?php echo number_format($data['monto_venta'],2);?>" readonly>                                
+                            </label>
+                        </div>
+                        
+                        <label class="label col col-3"><?php echo GNOSE_33; ?></label>
+                        <div class="col col-3">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-money "></i>
+                                <input type="text" id="<?php echo GNOSE; ?>txt_impuesto" name="<?php echo GNOSE; ?>txt_impuesto" value="<?php echo  number_format($data['monto_impuesto'],2);?>" readonly>                                
                             </label>
                         </div>
                     </div>
-                </section>   
-                
-                
+                </section>      
+                <section>
+                    <div class="row">
+                        <label class="label col col-2"><?php echo GNOSE_34; ?></label>
+                        <div class="col col-3">
+                            <label class="input"> 
+                                <i class="icon-append fa fa-money "></i>
+                                <input type="text" id="<?php echo GNOSE; ?>txt_total" name="<?php echo GNOSE; ?>txt_total" value="<?php echo number_format($data['monto_total'],2);?>" readonly>                                
+                            </label>
+                        </div>
+                        
+                        <label class="label col col-3"><?php echo GNOSE_35; ?></label>
+                        <div class="col col-3">
+                           <label class="input"> 
+                                <i class="icon-append fa fa-money "></i>
+                                <input type="text" id="<?php echo GNOSE; ?>txt_totalF" name="<?php echo GNOSE; ?>txt_totalF" value="<?php echo number_format($data['monto_total_final'],2);?>" readonly>                                
+                            </label>
+                        </div>
+                    </div>
+                </section>  
                 
             </div>
             <div class="modal-footer">    
                 <!--solo se edita si el estado es EMITIDO-->
-                <?php if($editar['permiso'] && $estado == 'E'):?>
+                <?php if($editar['permiso'] ):?>
                 <button id="<?php echo GNOSE; ?>btnEdOrd" type="submit" class="<?php echo $editar['theme']; ?>" style="padding: 5px">
                     <i class="<?php echo $editar['icono']; ?>"></i> <?php echo $editar['accion']; ?>
                 </button>
@@ -107,7 +153,6 @@ $estado = Formulario::getParam('_estado');
       element: '#<?php echo GNOSE; ?>txt_fechapago, #<?php echo GNOSE; ?>txt_fechacontrato' 
     });
 $("#<?php echo GNOSE; ?>formEditOrden").validate({
-    // Rules for form validation
     rules : {
         <?php echo GNOSE; ?>txt_fechapago : {
             required : true,
@@ -126,7 +171,6 @@ $("#<?php echo GNOSE; ?>formEditOrden").validate({
             integer: true
         },
     },
-    // No cambie el código de abajo
     errorPlacement : function(error, element) {
         error.insertAfter(element.parent());
     },

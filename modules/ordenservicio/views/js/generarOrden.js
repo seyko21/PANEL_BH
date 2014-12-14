@@ -75,7 +75,13 @@ var generarOrden_ = function(){
                     container: "#widget_"+diccionario.tabs.GNOSE,
                     typeElement: "button"
                 });
-            }
+            $('#'+diccionario.tabs.GNOSE+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.GNOSE+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
         setup_widgets_desktop();
     };
@@ -93,7 +99,7 @@ var generarOrden_ = function(){
             iDisplayLength: 50,            
             aoColumns: [
                 {sTitle: "N°", sWidth: "1%"},
-                {sTitle: "Monto S/.", sWidth: "10%",sClass: "right",bSortable: false},                
+                {sTitle: "Monto ", sWidth: "10%",sClass: "right",bSortable: false},                
                 {sTitle: "Programado", sWidth: "10%",sClass: "center",bSortable: false},                
                 {sTitle: "Mora", sWidth: "5%",sClass: "right",bSortable: false},
                 {sTitle: "Estado", sWidth: "10%",sClass: "center",bSortable: false},                

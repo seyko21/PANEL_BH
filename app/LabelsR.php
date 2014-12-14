@@ -5,8 +5,9 @@
  * Autor       : ..... .....
  * Descripcion : todas las etiquetas del sistema
  */
-
 define('LB_EMPRESA','MI EMPRESA');
+define('LB_EMPRESA2','MI EMPRESA DISEÑO');
+
 define('URL_FACEBOOK','http://fb.com/beholiacom');
 define('URL_TWITTER','https://twitter.com/beholiacom');
 define('URL_WEBSITE','http://www.beholia.com');
@@ -15,12 +16,13 @@ define('RC_TITLE','¿Olvido su contraseña?');
 define('RC_SOLCLAVE','Solicitar Clave');
 define('RC_RECLAVE','Si recuerdo mi contraseña');
 define('LOGIN_TITULO','Bienvenidos: ');
-define('LOGIN_BIENVENIDA','Gracias por confiar en BEHOLIA, para ingresar al sistema debe de indicar su correo electrónico (e-mail) y luego su contraseña. Para mayor información en daniel.mendoza@beholia.com');
+define('LOGIN_BIENVENIDA','Gracias por confiar en BEHOLIA, para ingresar al sistema debe de indicar su correo electrónico (e-mail) y luego su contraseña. Para mayor información en info@beholia.com');
 define('RC_TITULO','Advertencia: ');
 define('RC_BIENVENIDA','Para poder recuperar su contraseña debe de indicarnos su correo electrónico (E-mail) para enviarle sus accesos y reinicio de clave. Si usa Hotmail, revise en su bandeja de correo no deseado.');
 define('LABEL_MAS','Más Detalle');
 define('LABEL_ENVIADO','Enviado');
 define('LABEL_REDSOCIAL','- Redes Sociales -');
+
 /*ETIQUETAS GENERALES*/
 define('H_PANEL','Panel:');
 define('H_DOMI','Dominios');
@@ -37,7 +39,7 @@ define('BTN_ACT','Activar');
 define('BTN_DESACT','Desactivar');
 define('LABEL_ADV','Advertencia');
 define('LABEL_ADVMSN','Todas las caratulas han sido cotizadas.');
-define('COPY','Copyright Beholia 2012-'.date("Y").'.');
+define('COPY','Copyright SEVEND 2011-'.date("Y").'.');
 define('ICON_CLOSE','fa fa-ban');
 define('THEME_CLOSE','btn btn-default xClose');
 define('ACTIONS','Acciones');
@@ -167,8 +169,13 @@ define('LABEL_GNC25','Observaciones');
 define('LABEL_GNC26','Campaña');
 define('LABEL_GNC27','Click aquí para generar cotización');
 define('LABEL_GNC28','Foto');
-define('LABEL_GNC29','Compromisos de clientes');
-
+define('LABEL_GNC29','N° Cotización');
+define('LABEL_GNC30','Fecha');
+define('LABEL_GNC31','Fecha Vencimiento');
+define('LABEL_GNC32','Estado');
+define('LABEL_GNC33','Representante');
+define('LABEL_GNC34','Tiempo');
+define('LABEL_GNC35','Comentarios');
 /*----------------------    ASIGNAR CUENTAS----------------------*/
 define('LABEL_ASC1','Cuentas');
 define('LABEL_ASC2','Nueva Asignación');
@@ -224,7 +231,19 @@ define('GNOSE_21','Dias de Oferta');
 define('GNOSE_22','Ingrese días de Oferta despues de culminar el alquiler.');
 define('GNOSE_23','Caratulas de OS aun no se han instalado.');
 define('GNOSE_24','Porcentaje asignado: ');
-
+define('GNOSE_25','Cliente ');
+define('GNOSE_26','Representante');
+define('GNOSE_27','F. Contratado');
+define('GNOSE_28','F. Instalado');
+define('GNOSE_29','F. Retiro');
+define('GNOSE_30','Alquiler');
+define('GNOSE_31','Libre Impuesto');
+define('GNOSE_32','Subtotal');
+define('GNOSE_33','Impuesto');
+define('GNOSE_34','Total');
+define('GNOSE_35','Total Final');
+define('GNOSE_36','Precios');
+define('GNOSE_37','Incl. IGV');
 /*---------------------- SEGUIMIENTO DE PAGOS----------------*/
 define('SEGPA_1','Seguimiento de Pagos');
 define('SEGPA_2','Cuota');
@@ -279,7 +298,7 @@ define('ORINS_18','Total');
 define('ORINS_19','Click para finalizar Orden de Instalación');
 define('ORINS_20','Click para finalizar Producción');
 /*---------------------- TERMINAR CONTRATO ----------------*/
-define('TERCO_1','Ordenes de Servicio');
+define('TERCO_1','Listado de Ordenes de Servicio');
 define('TERCO_2','Finalizar contrato: ');
 define('TERCO_3','Motivo');
 define('TERCO_4','Ingrese un motivo por el cual se finaliza el contrato');

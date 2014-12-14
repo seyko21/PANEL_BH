@@ -60,12 +60,19 @@ var comisionVendedor_ = function(){
             sAjaxSource: _private.config.modulo+"getGridComisionVendedor",
             fnDrawCallback: function() {
                 $("#"+diccionario.tabs.COMVE+"gridComisionVendedor_filter").find("input").attr("placeholder","Buscar por vendedor").css("width","250px");
+                simpleScript.enterSearch("#"+diccionario.tabs.COMVE+'gridComisionVendedor',oTable);
                 /*para hacer evento invisible*/
                 simpleScript.removeAttr.click({
                     container: "#widget_"+diccionario.tabs.COMVE,
                     typeElement: "button"
                 });
-            }
+                 $('#'+diccionario.tabs.COMVE+'refresh').click(function(){
+                   oTable.fnReloadAjax(oTable.fnSettings());
+                }); 
+            },
+            fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+               return '<button id="'+diccionario.tabs.COMVE+'refresh" class="btn btn-primary" title="Actualizar"><i class="fa fa-refresh"></i></button> '+iStart +" al "+ iEnd+' de '+iTotal;
+           }
         });
         setup_widgets_desktop();
     };

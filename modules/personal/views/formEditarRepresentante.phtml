@@ -245,28 +245,12 @@ $data = clienteController::findCliente();
 <?php endif; ?>
 <script>
     $('#<?php echo REGCL; ?>formEditarRepresentante').validate({
-        // Rules for form validation
         rules : {
                 <?php echo REGCL; ?>txt_nombres : {
                         required : true,
-                        regular: true,
                         minlength: 3
                 },
-                <?php echo REGCL; ?>txt_apellidopaterno : {
-                        required : true,
-                        regular: true,
-                        minlength: 3
-                },
-                <?php echo REGCL; ?>txt_apellidomaterno : {
-                        required : true,
-                        regular: true,
-                        minlength: 3
-                },
-                <?php echo REGCL; ?>lst_tipodoc:{
-                        required: true
-                },        
-                <?php echo REGCL; ?>txt_nrodocumento:{
-                        required: true,
+               <?php echo REGCL; ?>txt_nrodocumento:{
                         number: true,
                         maxlength: 13
                 },
@@ -279,16 +263,12 @@ $data = clienteController::findCliente();
                 <?php echo REGCL; ?>lst_ubigeo : {
                         required : true
                 },
-                <?php echo REGCL; ?>txt_direccion : {
-                        regular2: true
-                },
                 <?php echo REGCL; ?>txt_email : {
                         required : true,
                         email: true
                 }    
         },
 
-        // Do not change code below
         errorPlacement : function(error, element) {
                 error.insertAfter(element.parent());
         },

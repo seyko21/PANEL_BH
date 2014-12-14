@@ -7,7 +7,7 @@
 */
 
 /*prefijo: REPER debe ser alias en tabla men_menuprincipal*/
-$editar = Session::getPermiso('REGSOACT');
+$editar = Session::getPermiso('REPERACT');
 $data = personaController::findPersona();
 ?>
 <form id="<?php echo REPER; ?>formEditPersona" name="<?php echo REPER; ?>formEditPersona" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -243,7 +243,6 @@ $data = personaController::findPersona();
 <?php endif; ?>
 <script>
     $('#<?php echo REPER; ?>formEditPersona').validate({
-        // Rules for form validation
         rules : {
                 <?php echo REPER; ?>txt_nombres : {
                         required : true,
@@ -251,24 +250,13 @@ $data = personaController::findPersona();
                         minlength: 3
                 },
                 <?php echo REPER; ?>txt_apellidopaterno : {
-                        required : true,
                         regular: true,
                         minlength: 3
                 },
                 <?php echo REPER; ?>txt_apellidomaterno : {
-                        required : true,
                         regular: true,
                         minlength: 3
-                },
-                <?php echo REPER; ?>txt_nrodocumento:{
-                        number: true,
-                        maxlength: 12
-                },
-                <?php echo REPER; ?>txt_dni:{
-                        required: true,
-                        number: true,
-                        maxlength: 8
-                },        
+                },     
                 <?php echo REPER; ?>lst_departamento : {
                         required : true
                 },
@@ -277,19 +265,16 @@ $data = personaController::findPersona();
                 },
                 <?php echo REPER; ?>lst_ubigeo : {
                         required : true
-                },
-                <?php echo REPER; ?>txt_direccion : {
-                        required : true,
-                        regular2: true,
-                        minlength: 3
-                },
+                },          
                 <?php echo REPER; ?>txt_email : {
                         required : true,
                         email: true
-                }    
+                },
+                <?php echo REPER; ?>txt_nrodocumento:{
+                        maxlength: 13
+                }
         },
 
-        // Do not change code below
         errorPlacement : function(error, element) {
                 error.insertAfter(element.parent());
         },
